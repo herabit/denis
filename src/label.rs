@@ -196,6 +196,14 @@ impl Label {
     #[inline]
     #[must_use]
     pub const fn len(&self) -> usize {
+        debug_assert!(self.bytes.len() < 64);
+
+        // Trickery to ensure remove bounds checks.
+        if self.bytes.len() > 63 {
+            // SAFETY: the length of a label is always less than 64.
+            unsafe { unreachable_unchecked() }
+        }
+
         self.bytes.len()
     }
 

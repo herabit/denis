@@ -18,12 +18,6 @@ impl OwnedLabel {
     #[must_use]
     #[no_mangle]
     pub const fn from_label(label: &Label) -> OwnedLabel {
-        // Trickery to ensure remove bounds checks.
-        if label.len() > 63 {
-            // SAFETY: the length of a label is always less than 64.
-            unsafe { unreachable_unchecked() }
-        }
-
         let mut bytes = [0u8; 63];
         let mut offset = 0usize;
 
